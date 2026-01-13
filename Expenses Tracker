@@ -1,0 +1,36 @@
+Expense Tracker Application
+🔹 Overview
+
+The Expense Tracker Application is a Python-based project designed to help users record, manage, and analyze their daily expenses.
+It includes data visualization using Matplotlib, allowing users to gain insights into their spending patterns through graphical representations.
+
+Add new expenses (amount, category, date, description)
+
+View all expense records
+
+Update and delete expenses
+
+Persistent storage using SQLite
+
+Visualize expenses using Matplotlib
+
+Category-wise expense distribution
+
+Monthly spending trends
+
+Simple CLI-based interface
+
+
+Tech Stack
+
+Programming Language: Python
+
+Database: SQLite
+
+Libraries Used:
+
+sqlite3
+
+datetime
+
+matplotlib
