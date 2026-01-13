@@ -1,0 +1,107 @@
+import json #jason is a syntax used for storing and exchanging data we can convert python into jason using json.dumps()
+import matplotlib.pyplot as plt
+
+# File to save expenses
+FILE_NAME = "expenses.json"
+
+# Function to load expenses from a file
+def load_expenses():
+    try:
+        with open(FILE_NAME, "r") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return  
+
+# Function to save expenses to a file
+def save_expenses(expenses):
+    with open(FILE_NAME, "w") as file:
+        json.dump(expenses, file, indent=4)
+
+# Function to add a new expense
+def add_expense(expenses):
+    date = input("Enter the date (YYYY-MM-DD): ")
+    category = input("Enter the category (e.g., Food, Travel, Shopping): ")
+    amount = float(input("Enter the amount: "))
+    description = input("Enter a description (optional): ")
+
+    expense = {
+        "date": date,
+        "category": category,
+        "amount": amount,
+        "description": description
+    }
+    expenses.append(expense)
+    save_expenses(expenses)
+    print("Expense added successfully!")
+
+# Function to view all expenses
+def view_expenses(expenses):
+    if not expenses:
+        print("No expenses recorded.")
+        return
+
+    print("\nExpense History:")
+    print("-" * 50)
+    for expense in expenses:
+        print(f"Date: {expense['date']}")
+        print(f"Category: {expense['category']}")
+        print(f"Amount: {expense['amount']:.2f}")
+        print(f"Description: {expense['description']}")
+        print("-" * 50)
+
+# Function to calculate total expenses
+def calculate_total(expenses):
+    total = sum(expense["amount"] for expense in expenses)
+    print(f"\nTotal Expenses: {total:.2f}")
+
+# Function to visualize expenses
+def visualize_expenses(expenses):
+    if not expenses:
+        print("No expenses to visualize.")
+        return
+
+    # Calculate total amount for each category
+    category_totals = {}
+    for expense in expenses:
+        category = expense["category"]
+        amount = expense["amount"]
+        category_totals[category] = category_totals.get(category, 0) + amount
+
+    # Prepare data for the pie chart
+    categories = list(category_totals.keys())
+    amounts = list(category_totals.values())
+
+    # Plot pie chart
+    plt.figure(figsize=(8, 6))
+    plt.pie(amounts, labels=categories, autopct='%1.1f%%', startangle=140)
+    plt.title("Expense Distribution by Category")
+    plt.show()
+
+# Main function
+def main():
+    expenses = load_expenses()
+    while True:
+        print("\nEXPENSE TRACKER")
+        print("1. Add Expense")
+        print("2. View Expenses")
+        print("3. Calculate Total Expenses")
+        print("4. Visualize Expenses")
+        print("5. Exit")
+        
+        choice = input("Enter your choice: ")
+        if choice == "1":
+            add_expense(expenses)
+        elif choice == "2":
+            view_expenses(expenses)
+        elif choice == "3":
+            calculate_total(expenses)
+        elif choice == "4":
+            visualize_expenses(expenses)
+        elif choice == "5":
+            print("Exiting Expense Tracker. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
